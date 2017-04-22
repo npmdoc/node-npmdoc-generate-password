@@ -1,0 +1,351 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+        href="https://github.com/brendanashworth/generate-password"
+
+    >generate-password (v1.3.0)</a>
+</h1>
+<h4>Easy library for generating unique passwords.</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.generate-password">module generate-password</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.generate-password.generate">
+            function <span class="apidocSignatureSpan">generate-password.</span>generate
+            <span class="apidocSignatureSpan">(options)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.generate-password.generateMultiple">
+            function <span class="apidocSignatureSpan">generate-password.</span>generateMultiple
+            <span class="apidocSignatureSpan">(amount, options)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.generate-password.generate">module generate-password.generate</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.generate-password.generate.generate">
+            function <span class="apidocSignatureSpan">generate-password.</span>generate
+            <span class="apidocSignatureSpan">(options)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.generate-password.generate.generateMultiple">
+            function <span class="apidocSignatureSpan">generate-password.generate.</span>generateMultiple
+            <span class="apidocSignatureSpan">(amount, options)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.generate-password" id="apidoc.module.generate-password">module generate-password</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.generate-password.generate" id="apidoc.element.generate-password.generate">
+        function <span class="apidocSignatureSpan">generate-password.</span>generate
+        <span class="apidocSignatureSpan">(options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">generate = function (options) {
+	// Set defaults.
+	options = options || {};
+	if (!options.hasOwnProperty(&#x27;length&#x27;)) options.length = 10;
+	if (!options.hasOwnProperty(&#x27;numbers&#x27;)) options.numbers = false;
+	if (!options.hasOwnProperty(&#x27;symbols&#x27;)) options.symbols = false;
+	if (!options.hasOwnProperty(&#x27;exclude&#x27;)) options.exclude = &#x27;&#x27;;
+	if (!options.hasOwnProperty(&#x27;uppercase&#x27;)) options.uppercase = true;
+	if (!options.hasOwnProperty(&#x27;excludeSimilarCharacters&#x27;)) options.excludeSimilarCharacters = false;
+	if (!options.hasOwnProperty(&#x27;strict&#x27;)) options.strict = false;
+
+	if (options.strict) {
+		var minStrictLength = 1 + (options.numbers ? 1 : 0) + (options.symbols ? 1 : 0) + (options.uppercase ? 1 : 0);
+		if (minStrictLength &#x3e; options.length) {
+			throw new TypeError(&#x27;Length must correlate with strict guidelines&#x27;);
+		}
+	}
+
+	// Generate character pool
+	var pool = lowercase;
+
+	// uppercase
+	if (options.uppercase) {
+		pool += uppercase;
+	}
+	// numbers
+	if (options.numbers) {
+		pool += numbers;
+	}
+	// symbols
+	if (options.symbols) {
+		pool += symbols;
+	}
+
+	// similar characters
+	if (options.excludeSimilarCharacters) {
+		pool = pool.replace(similarCharacters, &#x27;&#x27;);
+	}
+
+	// excludes characters from the pool
+	var i = options.exclude.length;
+	while (i--) {
+		pool = pool.replace(options.exclude[i], &#x27;&#x27;);
+	}
+
+	var password = generate(options, pool);
+
+	return password;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+#### `generate([options])`
+
+Generate one password with the given options. Returns a string.
+
+```javascript
+var generator = require(&#x27;generate-password&#x27;);
+
+var password = generator.<span class="apidocCodeKeywordSpan">generate</span>({
+	length: 10,
+	numbers: true
+});
+
+// &#x27;uEyMTw32v9&#x27;
+console.log(password);
+```
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.generate-password.generateMultiple" id="apidoc.element.generate-password.generateMultiple">
+        function <span class="apidocSignatureSpan">generate-password.</span>generateMultiple
+        <span class="apidocSignatureSpan">(amount, options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">generateMultiple = function (amount, options) {
+	var passwords = [];
+
+	for (var i = 0; i &#x3c; amount; i++) {
+		passwords[i] = self.generate(options);
+	}
+
+	return passwords;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+#### `generateMultiple(amount[, options])`
+
+Bulk generate multiple passwords at once, with the same options for all. Returns an array.
+
+```javascript
+var generator = require(&#x27;generate-password&#x27;);
+
+var passwords = generator.<span class="apidocCodeKeywordSpan">generateMultiple</span>(3, {
+	length: 10,
+	uppercase: false
+});
+
+// [ &#x27;hnwulsekqn&#x27;, &#x27;qlioullgew&#x27;, &#x27;kosxwabgjv&#x27; ]
+console.log(passwords);
+```
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.generate-password.generate" id="apidoc.module.generate-password.generate">module generate-password.generate</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.generate-password.generate.generate" id="apidoc.element.generate-password.generate.generate">
+        function <span class="apidocSignatureSpan">generate-password.</span>generate
+        <span class="apidocSignatureSpan">(options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">generate = function (options) {
+	// Set defaults.
+	options = options || {};
+	if (!options.hasOwnProperty(&#x27;length&#x27;)) options.length = 10;
+	if (!options.hasOwnProperty(&#x27;numbers&#x27;)) options.numbers = false;
+	if (!options.hasOwnProperty(&#x27;symbols&#x27;)) options.symbols = false;
+	if (!options.hasOwnProperty(&#x27;exclude&#x27;)) options.exclude = &#x27;&#x27;;
+	if (!options.hasOwnProperty(&#x27;uppercase&#x27;)) options.uppercase = true;
+	if (!options.hasOwnProperty(&#x27;excludeSimilarCharacters&#x27;)) options.excludeSimilarCharacters = false;
+	if (!options.hasOwnProperty(&#x27;strict&#x27;)) options.strict = false;
+
+	if (options.strict) {
+		var minStrictLength = 1 + (options.numbers ? 1 : 0) + (options.symbols ? 1 : 0) + (options.uppercase ? 1 : 0);
+		if (minStrictLength &#x3e; options.length) {
+			throw new TypeError(&#x27;Length must correlate with strict guidelines&#x27;);
+		}
+	}
+
+	// Generate character pool
+	var pool = lowercase;
+
+	// uppercase
+	if (options.uppercase) {
+		pool += uppercase;
+	}
+	// numbers
+	if (options.numbers) {
+		pool += numbers;
+	}
+	// symbols
+	if (options.symbols) {
+		pool += symbols;
+	}
+
+	// similar characters
+	if (options.excludeSimilarCharacters) {
+		pool = pool.replace(similarCharacters, &#x27;&#x27;);
+	}
+
+	// excludes characters from the pool
+	var i = options.exclude.length;
+	while (i--) {
+		pool = pool.replace(options.exclude[i], &#x27;&#x27;);
+	}
+
+	var password = generate(options, pool);
+
+	return password;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+#### `generate([options])`
+
+Generate one password with the given options. Returns a string.
+
+```javascript
+var generator = require(&#x27;generate-password&#x27;);
+
+var password = generator.<span class="apidocCodeKeywordSpan">generate</span>({
+	length: 10,
+	numbers: true
+});
+
+// &#x27;uEyMTw32v9&#x27;
+console.log(password);
+```
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.generate-password.generate.generateMultiple" id="apidoc.element.generate-password.generate.generateMultiple">
+        function <span class="apidocSignatureSpan">generate-password.generate.</span>generateMultiple
+        <span class="apidocSignatureSpan">(amount, options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">generateMultiple = function (amount, options) {
+	var passwords = [];
+
+	for (var i = 0; i &#x3c; amount; i++) {
+		passwords[i] = self.generate(options);
+	}
+
+	return passwords;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+#### `generateMultiple(amount[, options])`
+
+Bulk generate multiple passwords at once, with the same options for all. Returns an array.
+
+```javascript
+var generator = require(&#x27;generate-password&#x27;);
+
+var passwords = generator.<span class="apidocCodeKeywordSpan">generateMultiple</span>(3, {
+	length: 10,
+	uppercase: false
+});
+
+// [ &#x27;hnwulsekqn&#x27;, &#x27;qlioullgew&#x27;, &#x27;kosxwabgjv&#x27; ]
+console.log(passwords);
+```
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
